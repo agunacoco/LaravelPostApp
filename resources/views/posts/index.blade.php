@@ -13,7 +13,7 @@
     <div class="container mt-5">
         <h1>게시글 리스트</h1>
         <a href="/posts/create" class="btn btn-primary">게시글 작성</a>
-        <ul class="list-group mt -3">
+        <ul class="list-group mt -5">
 
             @foreach ( $posts as $post )
             <li class="list-group-item">

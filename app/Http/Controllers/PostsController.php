@@ -23,7 +23,7 @@ class PostsController extends Controller
 
         $request->validate([
             // title에 최소 3자 이상은 되어야한다.
-            'title' => 'required|min:3',
+            'title' => 'required|min:2',
             'content' => 'required'
         ]);
 
