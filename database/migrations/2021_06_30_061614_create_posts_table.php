@@ -23,7 +23,7 @@ class CreatePostsTable extends Migration
             $table->foreignId('user_id')
                 ->constrained()
                 ->onDelete('cascade');
-            $table->timestamps(); //복수선언 하는 것.
+            $table->timestamps(); //복수선언 하기.
 
         });
     }
