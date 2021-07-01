@@ -27,6 +27,9 @@ require __DIR__ . '/auth.php';
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/test', function () {
+    return view('hi');
+});
 
 Route::get('/posts/create', [PostsController::class, 'create']);
 //Route::get('/posts.create', 'PostsController@create');
