@@ -1,7 +1,17 @@
+<x-app-layout>
+<!DOCTYPE html>
 <html>
 <body>
+    <meta charset="utf-8">
+    <title>create</title>
+    
     <form action="/posts/store" method="post">
         @csrf
+        <x-slot name="header">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('글쓰기') }}
+            </h2>
+        </x-slot>
         <div class="form-group">
             <input type = 'text' name = 'title' placeholder = 'title' value="{{ old('title') }}"><br/>
             @error('title')<div>{{ $message }} </div>@enderror
@@ -16,3 +26,4 @@
     </form>
 </body>
 </html>
+</x-app-layout>

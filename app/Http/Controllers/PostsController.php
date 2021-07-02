@@ -27,7 +27,6 @@ class PostsController extends Controller
             'content' => 'required'
         ]);
 
-
         //dd($request);
 
         //DB에 저장
@@ -39,6 +38,9 @@ class PostsController extends Controller
 
         // 결과 뷰를 반환
         return redirect('/posts/index');  //index로 요청.
+
+        // $posts = Post::paginate(5);
+        // return view('posts.index', ['posts'=>$posts]);
     }
     public function index()
     {
@@ -48,7 +50,19 @@ class PostsController extends Controller
 
         $posts = Post::latest()->paginate(5); //한페이지에 2개씩 보여준다.
         // dd($posts[0]->created_at);
+        // dd($posts);
         return view('posts.index', ['posts' => $posts]);
+    }
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+    public function show(Request $request, $id)
+    {
+        //dd($request->page);
+        $page = $request->page;
+        $post = Post::find($id);
+        return view('posts.show', compact('post', 'page'));
     }
     public function edit()
     {
@@ -57,9 +71,6 @@ class PostsController extends Controller
     {
     }
     public function destroy()
-    {
-    }
-    public function show()
     {
     }
 }

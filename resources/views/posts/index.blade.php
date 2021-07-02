@@ -1,3 +1,4 @@
+<x-app-layout>
 <!DOCTYPE html>
 <html>
     <body>
@@ -11,13 +12,24 @@
     </body>
 <body>
     <div class="container mt-5">
-        <h1>게시글 리스트</h1>
-        <a href="/posts/create" class="btn btn-primary">게시글 작성</a>
+        <x-slot name="header">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('게시글 리스트') }}
+            </h2>
+        </x-slot>
+        
+        @auth
+            <a href="/posts/create" class="btn btn-primary">게시글 작성</a> 
+        @endauth
         <ul class="list-group mt -5">
 
             @foreach ( $posts as $post )
             <li class="list-group-item">
-                <span>Title : {{  $post->title }} </span>
+                <span>
+                    <a href="{{ route('posts.show', ['id'=>$post->id, 'page'=>$posts->currentPage()]) }}">
+                        Title : {{  $post->title }} 
+                    </a>
+                </span>
         
                 <div>
                     content: {{ $post->content }}
@@ -33,3 +45,4 @@
     </div>
 </body>
 </html>
+</x-app-layout>
