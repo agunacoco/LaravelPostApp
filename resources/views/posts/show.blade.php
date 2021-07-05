@@ -28,6 +28,13 @@
                     <textarea class="form-control" name="content" 
                         id="content" readonly>{{  $post->content }}</textarea>
                 </div>
+
+                <div class="form-group">
+                    <label for="imageFile">Post Image</label>
+                    <div>
+                        <img class="img-thumbnail" width="20%" src="{{ $post->imagePath() }}" id="imageFile" >{{ $post->content }}
+                    </div>
+
                 <div class="form-group">
                     <label>등록일</label>
                     <input type="text" readonly

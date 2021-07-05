@@ -31,10 +31,11 @@
                     </a>
                 </span>
         
-                <div>
+                {{-- <div>
                     content: {{ $post->content }}
-                </div>
-                <span>written on {{ $post -> created_at }} </span>
+                </div> --}}
+                <span>written on {{ $post -> created_at->diffForHumans() }} </span>
+                {{-- //만든 시간 데베에서 받아옴.  diffForHumans()는 n일전 이런식으로 뜨는 것. --}}
                 <hr>
             </li>  
             @endforeach

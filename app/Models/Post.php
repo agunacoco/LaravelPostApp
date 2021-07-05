@@ -9,4 +9,11 @@ class Post extends Model
 {
     //protected $table = 'my_posts'; 테이블 지정 
     use HasFactory;
+
+    public function imagePath()
+    {
+        $path = env('IMAGE_PATH', '/storage/images');
+        $imageFile = $this->image ?? 'nono.jpg';
+        return $path . $imageFile;
+    }
 }
