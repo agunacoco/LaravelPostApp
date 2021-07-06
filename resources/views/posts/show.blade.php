@@ -8,7 +8,7 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         </head>
         <body>
-            <div class="container">
+            <div class="container" m-5>
                 <x-slot name="header">
                     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                         {{ __('목록보기') }}
@@ -45,13 +45,18 @@
                     <label>수정일</label>
                     <input type="text" readonly
                     class="form-control"
-                    value="{{  $post->update_at }}">
+                    value="{{  $post->updated_at }}">
                 </div>
                 <div class="form-group">
                     <label>작성자</label>
                     <input type="text" readonly
                     class="form-control"
                     value="{{  $post->user_id }}">
+                </div>
+                <div class="flex">
+                    <button class="btn btn-warning" onclick=location.href="{{ route('post.edit', ['id' =>$post->id] )}}">수정</button>
+                    <button class="btn btn-danger" onclick=location.href="{{ route('post.delete', ['id' => $post->id])}}">삭제</button>
+                  
                 </div>
             </div>
         </body>
