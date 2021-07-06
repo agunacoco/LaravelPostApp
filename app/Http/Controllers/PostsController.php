@@ -48,6 +48,7 @@ class PostsController extends Controller
         if ($request->file('imageFile')) {
             $post->image = $this->uploadPostImage($request);
         }
+
         //$fileName = $name;
         $post->save();
 
@@ -65,6 +66,7 @@ class PostsController extends Controller
         // $name = 'spaceship.jpg';
         $extension = $request->file('imageFile')->extension();
         // $extension = 'jpg';
+
 
         //spacehship.jpg의 이미지파일 이름이라면
         //spaceship_123kdsjbk.jpg로 파일 이름을 변경.
