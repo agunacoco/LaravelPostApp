@@ -109,14 +109,13 @@ class PostsController extends Controller
         $post = Post::find($id);
         return view('posts.show', compact('post', 'page'));
     }
-    public function edit($id)
+    public function edit(Request $request, Post $post)
     {
-
-        $post = Post::find($id);
+        //$post = Post::find($id);
         //dd($post);
         //$post = Post::where('id', $id)->get();
         // 수정 폼 생성.
-        return view('posts.edit')->with('post', $post);
+        return view('posts.edit', ['post' => $post, 'page' => $request->page]);
     }
     public function update(Request $request, $id)
     {
@@ -131,6 +130,16 @@ class PostsController extends Controller
 
         $post = Post::find($id);
         // 이미지 파일 수정. 파일 시스템에서
+
+        //authorization. 즉 수정 권한이 있는지 검사
+        //즉, 로그인한 사용자와 게시그르이 작성자가 같은지 체크
+        // if (auth()->user()->id != $post->user_id) {
+        //     abort(403);
+        // }
+        if ($request->user()->connot('delete', $post)) {   //update를 할수 없나?
+            abort(403);
+        }
+
         if ($request->file('imageFile')) {
             $imagePath = 'public/images/' . $post->image;
             Storage::delete('imagePath');
@@ -141,11 +150,29 @@ class PostsController extends Controller
         $post->title = $request->title;
         $post->content = $request->content;
         $post->save();
-        return redirect()->route('posts.show', ['id' => $id]);
+        return redirect()->route('posts.show', ['id' => $id, 'page' => $request->page]);
     }
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         // 파일 시스템에서 이지미 파일 삭제. 
         // 게시글을 데이터베이스에서 삭제.
+        $post = Post::findOrFail($id);
+
+        //authorization. 즉 수정 권한이 있는지 검사
+        //즉, 로그인한 사용자와 게시그르이 작성자가 같은지 체크
+        // if (auth()->user()->id != $post->user_id) {
+        //     abort(403);
+        // }
+        if ($request->user()->connot('delete', $post)) {
+            abort(403);
+        }
+
+        $page = $request->page;
+        if ($post->image) {
+            $imagePath = 'public/images/' . $post->image;
+            Storage::delete('imagePath');
+        }
+        $post->delete();
+        return redirect()->route('posts.index', ['page' => $page]);
     }
 }
