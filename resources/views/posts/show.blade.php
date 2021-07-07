@@ -54,11 +54,23 @@
                     value="{{  $post->user_id }}">
                 </div><br/>
 
-                <div class="flex">
-                    <button class="btn btn-warning" onclick=location.href="{{ route('post.edit', ['id' =>$post->id] )}}">수정</button>
-                    <button class="btn btn-danger" onclick=location.href="{{ route('post.delete', ['id' => $post->id])}}">삭제</button>
-                    <button class="btn btn-primary" onclick=location.href="{{ route('posts.index', ['page'=>$page]) }}">목록보기</button>
-                </div>
+                @auth
+                    {{-- @if (auth()->user()->id == $post->user_id) --}}
+                    @can('update', $post)
+                    <div class="flex">
+                        <a class="btn btn-warning" href="{{ route('post.edit', ['post' =>$post->id, 'page' => $page] )}}">수정</a>
+                        {{-- location.href는 무조건 get 방식. --}}
+                        {{-- <button class="btn btn-danger" onclick=location.href="{{ route('post.delete', ['id' => $post->id])}}">삭제</button> --}}
+                        <form action="{{ route('post.delete', ['id' => $post->id, 'page' => $page])}}" method="post">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-danger" >삭제</button>
+                        </form>
+                        <button class="btn btn-primary" onclick=location.href="{{ route('posts.index', ['page'=>$page]) }}">목록보기</button>
+                    </div>
+                    @endcan
+                    {{-- @endif --}
+                @endauth
             </div>
         </body>
 </html>
