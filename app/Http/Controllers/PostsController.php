@@ -90,9 +90,14 @@ class PostsController extends Controller
         // $posts = Post::latest()->get();
         // $posts = Post::orderByDesc('created_at') -> get();
 
-        $posts = Post::latest()->paginate(5); //한페이지에 5개씩 보여준다.
+        $posts = Post::orderBy('updated_at', 'desc')->paginate(5); //한페이지에 5개씩 보여준다.
         // dd($posts[0]->created_at);
         // dd($posts);
+        return view('posts.index', ['posts' => $posts]);
+    }
+    public function user_index()
+    {
+        $posts = auth()->user()->posts()->orderBy('updated_at', 'desc')->paginate(5); // auth()->user() 현재 로그인된 사용자 정보. posts()는 User 모델에 정의된 posts()를 불러온다.
         return view('posts.index', ['posts' => $posts]);
     }
 
@@ -136,7 +141,7 @@ class PostsController extends Controller
         // if (auth()->user()->id != $post->user_id) {
         //     abort(403);
         // }
-        if ($request->user()->connot('delete', $post)) {   //update를 할수 없나?
+        if ($request->user()->cannot('delete', $post)) {   //update를 할수 없나?
             abort(403);
         }
 
@@ -163,7 +168,7 @@ class PostsController extends Controller
         // if (auth()->user()->id != $post->user_id) {
         //     abort(403);
         // }
-        if ($request->user()->connot('delete', $post)) {
+        if ($request->user()->cannot('delete', $post)) {
             abort(403);
         }
 
