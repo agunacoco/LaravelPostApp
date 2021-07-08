@@ -40,6 +40,7 @@ Route::post('/posts/store', [PostsController::class, 'store'])->name('posts.stor
 //model 대응되는 table의 하나의 레코드를 나타내는 클래스를 정의.
 
 Route::get('/posts/index', [PostsController::class, 'index'])->name('posts.index');
+Route::get('/posts/user_index', [PostsController::class, 'user_index'])->name('posts.user_index');
 Route::get('/posts/show/{id}', [PostsController::class, 'show'])->name('posts.show');
 Route::get('/posts/{post}', [PostsController::class, 'edit'])->name('post.edit');
 Route::put('/posts/{id}', [PostsController::class, 'update'])->name('post.update');

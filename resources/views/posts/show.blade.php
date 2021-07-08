@@ -23,8 +23,9 @@
                 </div><br/>
                 <div class="form-group">
                     <label for='content'>Content</label>
-                    <textarea class="form-control" name="content" 
-                        id="content" readonly>{{  $post->content }}</textarea>
+                    <div name="content" id="content" readonly>
+                        {!! $post->content !!}
+                    </div>
                 </div><br/>
 
                 <div class="form-group">
@@ -47,11 +48,13 @@
                     class="form-control"
                     value="{{  $post->updated_at }}">
                 </div><br/>
+
                 <div class="form-group">
                     <label>작성자</label>
                     <input type="text" readonly
                     class="form-control"
-                    value="{{  $post->user_id }}">
+                    {{-- value="{{  $post->user()->select('name', 'email')->get() }}"> //user()로 select문을 사용 --}}
+                    value="{{  $post->user->name}}">
                 </div><br/>
 
                 @auth
@@ -69,7 +72,6 @@
                         <button class="btn btn-primary" onclick=location.href="{{ route('posts.index', ['page'=>$page]) }}">목록보기</button>
                     </div>
                     @endcan
-                    {{-- @endif --}
                 @endauth
             </div>
         </body>
