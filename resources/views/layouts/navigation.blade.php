@@ -23,6 +23,9 @@
                     <x-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
                         {{ __('Create') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('posts.user_index')" :active="request()->routeIs('posts.cuser_index')">
+                        {{ __('MyPosts') }}
+                    </x-nav-link>
                 </div>
             </div>
 
