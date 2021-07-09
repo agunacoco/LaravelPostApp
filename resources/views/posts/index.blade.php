@@ -41,7 +41,8 @@
                         {{ $post->count }} {{ $post->count > 0 ? Str::plural('view', $post->count) : 'view' }}
                     </span>
                     {{-- 만든 시간 데베에서 받아옴.  diffForHumans()는 n일전 이런식으로 뜨는 것. --}}
-                    {{--  --}}
+                    {{-- count가 0 이상이면 Str::plural('view', $post->count)를 아니면 'view'로 나타내기.
+                        Str::plural('view', $post->count)는 count가 1이면 view로 표시하고 1 이상이면 views로 알아서 자동 변환해준다. --}}
 
                     <hr>
                 </li><br/>

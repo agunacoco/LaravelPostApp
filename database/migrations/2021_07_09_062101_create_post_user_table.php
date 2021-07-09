@@ -19,7 +19,7 @@ class CreatePostUserTable extends Migration
             $table->unsignedBigInteger('post_id'); 
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
             $table->timestamp('created_at');   //시간 - 업데이트 시간이랑 작성 시간을 만들어준다.
-            $table->unique(['user_id', 'post_id']);
+            $table->unique(['user_id', 'post_id']); // 중복 저장 안되게 해준다. 
         });
     }
 
