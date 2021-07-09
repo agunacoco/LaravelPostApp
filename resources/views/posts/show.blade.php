@@ -39,7 +39,7 @@
                     <label>등록일</label>
                     <input type="text" readonly
                     class="form-control"
-                    value="{{  $post->created_at->diffForHumans()}}">
+                    value="{{  $post->created_at}}">
                 </div><br/>
 
                 <div class="form-group">

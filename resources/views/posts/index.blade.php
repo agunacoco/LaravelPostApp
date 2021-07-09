@@ -17,30 +17,37 @@
                     {{ __('게시글 리스트') }}
                 </h2>
             </x-slot>
-            @auth
+            {{-- @auth는 현재 접속자가 인증된 사용자인지 아니면 guest인지 판별하는데 사용가능한 편의 기능이다. --}}
+            @auth 
                 <button onclick=location.href="/posts/create" class="btn btn-primary">게시글 작성</button>
             @endauth
-
+            <br/>
             <ul class="list-group">
 
                 @foreach ( $posts as $post )
                 <li class="list-group-item">
                     <span>
-                        <a href="{{ route('posts.show', ['id'=>$post->id, 'page'=>$posts->currentPage()]) }}">
+                        <a href="{{ route('posts.show', ['id'=>$post->id, 'page'=>$posts->currentPage()]) }}"> 
                             Title : {{  $post->title }} <br/>
                         </a>
+
                     </span>
             
                     {{-- <div>
                         content: {{ $post->content }}
                     </div> --}}
-                    <span>written on {{ $post -> created_at->diffForHumans() }} </span>
-                    {{-- //만든 시간 데베에서 받아옴.  diffForHumans()는 n일전 이런식으로 뜨는 것. --}}
+                    <span>
+                        written on {{ $post -> created_at->diffForHumans() }} <br/>
+                        {{ $post->count }} {{ $post->count > 0 ? Str::plural('view', $post->count) : 'view' }}
+                    </span>
+                    {{-- 만든 시간 데베에서 받아옴.  diffForHumans()는 n일전 이런식으로 뜨는 것. --}}
+                    {{--  --}}
+
                     <hr>
                 </li><br/>
                 @endforeach
             </ul>
-            <div class="mt-5">
+            <div class="mt-4">
                 {{ $posts -> links()}}  
             </div>
         </div>

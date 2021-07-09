@@ -22,6 +22,7 @@ class PostsController extends Controller
     {
         //$request -> input['title']; //input이라는 연관배열. 특정 키에 대한 값을 가져온다. title이라는 것을 가져온다.
         //$repuest -> input['content'];
+        //가져올 때 name? id? 아마 name일 것 같다.
         $title = $request->title;
         $content = $request->content;
 
@@ -92,8 +93,8 @@ class PostsController extends Controller
 
         $posts = Post::orderBy('updated_at', 'desc')->paginate(5); //한페이지에 5개씩 보여준다.
         // dd($posts[0]->created_at);
-        // dd($posts);
-        return view('posts.index', ['posts' => $posts]);
+        //dd($posts);
+        return view('posts.index', ['posts' => $posts]); //각 게시물 $posts을 'posts'에 담아서 posts.index에 전달
     }
     public function user_index()
     {
@@ -104,7 +105,7 @@ class PostsController extends Controller
     //construct 구성한다
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth')->except(['index', 'show']);  // index랑 show는 middleware에서 예외한다.
     }
     public function show(Request $request, $id)
     {
@@ -112,6 +113,9 @@ class PostsController extends Controller
         //dd($request->id);
         $page = $request->page;
         $post = Post::find($id);
+        $post ->count++;  //조회수 증가 시킴.
+        $post->save();        //DB에 반영.
+        
         return view('posts.show', compact('post', 'page'));
     }
     public function edit(Request $request, Post $post)
