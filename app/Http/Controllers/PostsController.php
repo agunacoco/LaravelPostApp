@@ -22,12 +22,12 @@ class PostsController extends Controller
     {
         //$request -> input['title']; //input이라는 연관배열. 특정 키에 대한 값을 가져온다. title이라는 것을 가져온다.
         //$repuest -> input['content'];
-        //가져올 때 name? id? 아마 name일 것 같다.
+        //가져올 때 name으로 값을 가져온다.
         $title = $request->title;
         $content = $request->content;
 
         $request->validate([
-            // title에 최소 3자 이상은 안되면 에러 발생. 
+            // title,content에 최소 3자 이상은 안되면 에러 발생. 
             // 에러 발생 -> 리다이렉션 발생 create()로.
             'title' => 'required|min:3',
             'content' => 'required|min:3',
@@ -37,6 +37,10 @@ class PostsController extends Controller
         // dd($request);
 
         //DB에 저장
+        
+        //Post는 모델.
+        //명확히 정의된 models를 통해 쉽게 DB에 데이터 저장, 복원 작업 가능.
+        //데이터베이스 테이블에서 정보를 찾거나 저장할 때 쓰인다.
         $post = new Post;
         $post->title = $title;
         $post->content = $content;
@@ -51,7 +55,7 @@ class PostsController extends Controller
         }
 
         //$fileName = $name;
-        $post->save();
+        $post->save(); //DB저장
 
         // 결과 뷰를 반환
         //redirect : 다시 전송하기.
@@ -81,6 +85,8 @@ class PostsController extends Controller
         // dd($fileName);
 
         $request->file('imageFile')->storeAs('public/images', $fileName);
+        //imageFile을 public/images에 $fileName으로 저장한다.
+        //왜 /app/public/image가 아니냐면 app이 기본 자동값으로 입력할 때 app을 제외하고 입력한다.
         //$request->imageFile
         //그 파일 이름을 컬럼에 설정.
         return $fileName;
@@ -91,7 +97,7 @@ class PostsController extends Controller
         // $posts = Post::latest()->get();
         // $posts = Post::orderByDesc('created_at') -> get();
 
-        $posts = Post::orderBy('updated_at', 'desc')->paginate(5); //한페이지에 5개씩 보여준다.
+        $posts = Post::orderBy('created_at', 'desc')->paginate(5); //한페이지에 5개씩 보여준다.
         // dd($posts[0]->created_at);
         //dd($posts);
         return view('posts.index', ['posts' => $posts]); //각 게시물 $posts을 'posts'에 담아서 posts.index에 전달
@@ -106,16 +112,17 @@ class PostsController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except(['index', 'show']);  // index랑 show는 middleware에서 예외한다.
+        //웹사이트 url을 호출할 때 로그인한 사용자가 http 요청을 보내면, 로그인 되어있는지 미들웨어에서 확인하여 요청을 거부할껀지 승인할껀지에 대해서 설정이 가능하다.
     }
-    public function show(Request $request, $id)
+    public function show(Request $request, $id) //$id는 web.php에 라우트 경로를 지정할 때 id다.
     {
         //dd($request->page);
         //dd($request->id);
         $page = $request->page;
         $post = Post::find($id);
-        $post ->count++;  //조회수 증가 시킴.
+        $post -> count++;  // 조회수 증가 시킴.
         $post->save();        //DB에 반영.
-        
+
         return view('posts.show', compact('post', 'page'));
     }
     public function edit(Request $request, Post $post)
@@ -145,7 +152,7 @@ class PostsController extends Controller
         // if (auth()->user()->id != $post->user_id) {
         //     abort(403);
         // }
-        if ($request->user()->cannot('delete', $post)) {   //update를 할수 없나?
+        if ($request->user()->cannot('update', $post)) {   //PostPolicy에서 update update를 할수 없나?
             abort(403);
         }
 
@@ -163,25 +170,27 @@ class PostsController extends Controller
     }
     public function destroy(Request $request, $id)
     {
-        // 파일 시스템에서 이지미 파일 삭제. 
-        // 게시글을 데이터베이스에서 삭제.
         $post = Post::findOrFail($id);
 
         //authorization. 즉 수정 권한이 있는지 검사
-        //즉, 로그인한 사용자와 게시그르이 작성자가 같은지 체크
+        //즉, 로그인한 사용자와 게시글이 작성자가 같은지 체크
         // if (auth()->user()->id != $post->user_id) {
         //     abort(403);
         // }
-        if ($request->user()->cannot('delete', $post)) {
+        if ($request->user()->cannot('delete', $post)) { //PostPolicy의 delete
             abort(403);
         }
 
+        // 파일 시스템에서 이미지 파일 삭제. 
         $page = $request->page;
         if ($post->image) {
             $imagePath = 'public/images/' . $post->image;
-            Storage::delete('imagePath');
+            Storage::delete('imagePath');   //storage에 저장된 image를 삭제.
         }
-        $post->delete();
+
+        // 게시글을 데이터베이스에서 삭제.
+        $post->delete();    //데베에서 id에 맞는 post를 제거한다.
+
         return redirect()->route('posts.index', ['page' => $page]);
     }
 }

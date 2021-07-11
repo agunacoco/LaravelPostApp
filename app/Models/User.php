@@ -45,6 +45,6 @@ class User extends Authenticatable
 
     public function posts()
     {
-        return $this->hasMany(Post::class); // user를 가져올 수 있다. 
+        return $this->hasMany(Post::class); // function으로 posts의 데베 값을 가지고 올 수 있다.ㄴ
     }
 }

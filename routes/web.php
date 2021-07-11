@@ -26,6 +26,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/test/create',[MyPostsController::class,'create'])->name('test.create');
+
+
+
+
+
+
+
+
+
 Route::get('/posts/create', [PostsController::class, 'create'])/*->middleware(['auth'])*/->name('posts.create');
 //Route::get('/posts.create', 'PostsController@create');
 
@@ -45,3 +56,5 @@ Route::get('/posts/show/{id}', [PostsController::class, 'show'])->name('posts.sh
 Route::get('/posts/{post}', [PostsController::class, 'edit'])->name('post.edit');
 Route::put('/posts/{id}', [PostsController::class, 'update'])->name('post.update');
 Route::delete('/posts/{id}', [PostsController::class, 'destroy'])->name('post.delete');
+
+

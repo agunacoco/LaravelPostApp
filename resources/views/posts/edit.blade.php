@@ -18,36 +18,37 @@
                     @csrf 
                     @method("put")
 
-                {{-- method spoofing --}}
-                {{-- <input type="hidden" name="_method" value="put"> --}}
-                <div class="form-group">
-                    <label for="title">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" value="{{  old('title')  ? old('title') : $post->title}}" ><br/> 
-                    @error('title')
-                    <div>{{ $message }} </div>
-                    @enderror
-                </div>
+                    {{-- method spoofing --}}
+                    {{-- <input type="hidden" name="_method" value="put"> --}}
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" value="{{  old('title')  ? old('title') : $post->title}}" ><br/> 
+                        @error('title')
+                        <div>{{ $message }} </div>
+                        @enderror
+                    </div>
 
-                <div class="form-group">
-                    <label for='content'>Content</label>
-                    <textarea class="form-control" id="content" name = 'content' >{{ old('content') ? old('content') : $post->content }}</textarea><br/>
-                    @error('content')
-                    <div>{{ $message }} </div>
-                    @enderror
-                </div>
+                    <div class="form-group">
+                        <label for='content'>Content</label>
+                        <textarea class="form-control" id="content" name = 'content' >{{ old('content') ? old('content') : $post->content }}</textarea><br/>
+                        @error('content')
+                        <div>{{ $message }} </div>
+                        @enderror
+                    </div>
 
-                <div class="form-group">
-                    <label for="file">File</label>
-                    <input type="file" id="file" name="imageFile">
-                    @error('imageFile')
-                        <div>{{  $message }} </div>
-                    @enderror
-                </div><br/>
+                    <div class="form-group">
+                        <label for="file">File</label>
+                        <input type="file" id="file" name="imageFile">
+                        @error('imageFile')
+                            <div>{{  $message }} </div>
+                        @enderror
+                    </div><br/>
 
-                <div class= "form-group">
-                    <img class="img-thumbnail" width="30%" src="{{ $post -> imagePath() }}">
-                </div><br/>
-                <input type = 'submit' class="btn btn-primary" value="등록">
+                    <div class= "form-group">
+                        <img class="img-thumbnail" width="30%" src="{{ $post -> imagePath() }}">
+                    </div><br/>
+                    
+                    <input type = 'submit' class="btn btn-primary" value="등록">
             </form>
         </div>
     </body>
