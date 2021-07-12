@@ -47,4 +47,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class); // function으로 posts의 데베 값을 가지고 올 수 있다.ㄴ
     }
+
+    public function viewed_posts() {
+        return $this->belongsToMany(Post::class); 
+        return $this->belongsToMany(Post::class, 'post_user'); 
+        //기본 테이블, 
+    }
 }

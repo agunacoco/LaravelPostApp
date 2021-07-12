@@ -40,7 +40,7 @@
 
                             {{-- count가 0 이상이면 Str::plural('view', $post->count)를 아니면 'view'로 나타내기.
                             Str::plural('view', $post->count)는 count가 1이면 view로 표시하고 1 이상이면 views로 알아서 자동 변환해준다. --}}
-                            {{ $post->count }} {{ $post->count > 0 ? Str::plural('view', $post->count) : 'view' }}
+                            {{ $post->viewers->count() }} {{ $post->viewers->count() > 0 ? Str::plural('view', $post->viewers->count()) : 'view' }}
                         </span>
                     </li><br/>
                 @endforeach

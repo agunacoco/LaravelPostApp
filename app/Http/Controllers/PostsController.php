@@ -97,7 +97,7 @@ class PostsController extends Controller
         // $posts = Post::latest()->get();
         // $posts = Post::orderByDesc('created_at') -> get();
 
-        $posts = Post::orderBy('created_at', 'desc')->paginate(5); //한페이지에 5개씩 보여준다.
+        $posts = Post::orderBy('updated_at', 'desc')->paginate(5); //한페이지에 5개씩 보여준다.
         // dd($posts[0]->created_at);
         //dd($posts);
         return view('posts.index', ['posts' => $posts]); //각 게시물 $posts을 'posts'에 담아서 posts.index에 전달
@@ -120,8 +120,18 @@ class PostsController extends Controller
         //dd($request->id);
         $page = $request->page;
         $post = Post::find($id);
-        $post -> count++;  // 조회수 증가 시킴.
-        $post->save();        //DB에 반영.
+        // $post -> count++;  // 조회수 증가 시킴. 같은 user가 여러번 조회수 올릴 수 있다.  
+        // $post->save();        //DB에 반영.
+        
+        /*
+        이 글을 조회한 사용자들 중에, 현재
+        로그인한 사용자가 포함되어 있는지를 체크하고
+        포함되어 있지 않으면 추가. 
+        포함되어 있음면 다음 단계로 넘어감.
+        */
+        if(Auth::user()!=null && !$post->viewers->contains(Auth::user()) ) {
+            $post->viewers()->attach(Auth::user()->id);
+        }
 
         return view('posts.show', compact('post', 'page'));
     }
@@ -146,7 +156,6 @@ class PostsController extends Controller
 
         $post = Post::find($id);
         // 이미지 파일 수정. 파일 시스템에서
-
         //authorization. 즉 수정 권한이 있는지 검사
         //즉, 로그인한 사용자와 게시그르이 작성자가 같은지 체크
         // if (auth()->user()->id != $post->user_id) {
@@ -166,7 +175,8 @@ class PostsController extends Controller
         $post->title = $request->title;
         $post->content = $request->content;
         $post->save();
-        return redirect()->route('posts.show', ['id' => $id, 'page' => $request->page]);
+        // return redirect()->route('posts.show', ['id' => $id, 'page' => $request->page]);
+        return back();
     }
     public function destroy(Request $request, $id)
     {
