@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+    //create에 명시할 수 있다. 
 
     /**
      * The attributes that should be hidden for arrays.
