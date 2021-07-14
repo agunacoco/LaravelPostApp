@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\PostUser;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+//모델을 정의하지 않으면 안된다. 그래서 정의할 모델이 있어서 factory를 사용할 수 있다. 
 class PostUserFactory extends Factory
 {
     protected $users = null;
@@ -22,7 +23,7 @@ class PostUserFactory extends Factory
      *
      * @var string
      */
-    protected $model = PostUser::class;
+    protected $model = PostUser::class; // PostUser 모델의 속성을 정의한다. 
 
     /**
      * Define the model's default state.
@@ -31,8 +32,8 @@ class PostUserFactory extends Factory
      */
     public function definition()
     {
+        //post_user테이블의 user_id, post_id 중복 해결.
         do{
-        //조회수 id 중복으로
         $userId = $this->users->random()->id;
         $postId = $this->posts->random()->id;
         $postUser = PostUser::where('user_id', $userId)->where('post_id', $postId);

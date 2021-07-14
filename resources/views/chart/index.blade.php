@@ -16,14 +16,14 @@
         data: {
             labels: [
                 @foreach ($postusers as $postuser)
-                    '{{ $postuser->post->title }}',
+                    '{{ $postuser->post->title }}', // title을 가져오는 것.
                 @endforeach
             ],
             datasets: [{
                 label: '# of Votes',
                 data: [
                     @foreach ($postusers as $postuser )
-                        {{ $postuser->cnt }}, 
+                        {{ $postuser->cnt }},  // 조회수를 count한 것을 data로 가져오는 것. 정렬.
                     @endforeach
                 ],
                 backgroundColor: [

@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+//팩토리는 database/factory 디렉토리에 생성.
+//데이터베이스에 몇몇 샘플 레코드를 입력하는 것이 필요할 때 수동으로 입력하는 대신에 모델 패토리를 사용.
 class UserFactory extends Factory
 {
     /**
@@ -13,13 +15,14 @@ class UserFactory extends Factory
      *
      * @var string
      */
-    protected $model = User::class;
+    protected $model = User::class; // User 모델의 속성을 정의했다.
 
     /**
      * Define the model's default state.
      *
      * @return array
      */
+    //definition 메소드는 팩토리를 사용하여 모델을 만들 때 적용해야하는 기본 속성 값 집합을 반환.
     public function definition()
     {
         return [
