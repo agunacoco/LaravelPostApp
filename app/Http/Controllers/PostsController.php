@@ -97,7 +97,7 @@ class PostsController extends Controller
         // $posts = Post::latest()->get();
         // $posts = Post::orderByDesc('created_at') -> get();
 
-        $posts = Post::orderBy('updated_at', 'desc')->paginate(5); //한페이지에 5개씩 보여준다.
+        $posts = Post::orderBy('updated_at','desc')->paginate(5); //한페이지에 5개씩 보여준다.
         // dd($posts[0]->created_at);
         //dd($posts);
         return view('posts.index', ['posts' => $posts]); //각 게시물 $posts을 'posts'에 담아서 posts.index에 전달

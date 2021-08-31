@@ -9,7 +9,7 @@
         <script src="https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js"></script>
     </head>
     <body>
-        <div class="container" >
+        <div class="container">
             <x-slot name="header">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('글쓰기') }}

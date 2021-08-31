@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 // 같은 사용자가 한번만 조회할 수 있도록 post_id랑 user_id를 가져와서 factory를 이용해 샘플을 만들도록 PostUser을 만들었다.  
 class PostUser extends Model
-{
+{   
     use HasFactory;
 
     protected $table='post_user'; // 모델에서 table 속성을 정의하여 테이블 이름을 직접 지정할 수 있다.
